@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.gis',
+    "leaflet",  # pretty maps
     'tracker',
     'location',
 ]
@@ -122,4 +123,3 @@ LOGGING = {
     "handlers": {"console": {"class": "logging.StreamHandler", "formatter": "console"}},
     "loggers": {"socialrating": {"handlers": ["console"], "level": "DEBUG"}},
 }
-
