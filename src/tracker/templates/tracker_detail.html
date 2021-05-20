@@ -29,10 +29,10 @@
       $('input[name="datetimefilter"]').daterangepicker({
         "timePicker": true,
         "timePicker24Hour": true,
-        "startDate": moment().startOf('hour').add(-24, 'hour'),
-        "endDate": moment(),
+        "startDate": "{{ not_before }}",
+        "endDate": "{{ not_after|default:now }}",
         locale: {
-          format: 'YYYY-MM-DD hh:mm'
+          format: 'YYYY-MM-DD HH:mm'
         }
       }, function(start, end, label) {
            console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
