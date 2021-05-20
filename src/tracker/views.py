@@ -19,5 +19,12 @@ class TrackerDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["geojson"] = GeoJSONSerializer().serialize(self.get_object().location_set.all(), use_natural_keys=True, with_modelname=False, geometry_field="location")
+        locations = self.get_object().location_set.all()
+        if self.request.GET.get('not_before'):
+            locations = locations.filter(timestamp__gt=self.request.GET.get('not_before'))
+        if self.request.GET.get('not_after'):
+            locations = locations.filter(timestamp__lt=self.request.GET.get('not_after'))
+        context["locations"] = locations
+        context["total_locations"] = locations.count()
+        context["geojson"] = GeoJSONSerializer().serialize(locations, use_natural_keys=True, with_modelname=False, geometry_field="location")
         return context

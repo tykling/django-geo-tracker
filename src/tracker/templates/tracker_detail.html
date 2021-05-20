@@ -1,5 +1,6 @@
 {% load leaflet_tags %}
 {% load geojson_tags %}
+{% load static %}
 <html>
   <head>
     {% leaflet_js %}
@@ -13,9 +14,31 @@
         L.geoJson({{ geojson|safe }}).addTo(map);
       });
     </script>
+    <script type="text/javascript" src="{% static 'js/jquery/jquery.v3.2.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/momentjs/moment.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/daterangepicker/daterangepicker.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/daterangepicker/daterangepicker.css' %}" />
   </head>
   <body>
     <h1>Tracker {{ tracker.uuid }}</h1>
+    <h2>Showing {{ locations|length }} of {{ total_locations }} locations</h2>
+    <input type="text" name="datetimefilter" size=30>
     {% leaflet_map "main" %}
+    <script>
+    $(function() {
+      $('input[name="datetimefilter"]').daterangepicker({
+        "timePicker": true,
+        "timePicker24Hour": true,
+        "startDate": moment().startOf('hour').add(-24, 'hour'),
+        "endDate": moment(),
+        locale: {
+          format: 'YYYY-MM-DD hh:mm'
+        }
+      }, function(start, end, label) {
+           console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+           window.location.href = window.location.href.split('?')[0] + "?not_before=" + start.format('YYYY-MM-DD hh:mm') + "&not_after=" + end.format("YYYY-MM-DD hh:mm");
+      });
+    });
+    </script>
   </body>
 </html>
