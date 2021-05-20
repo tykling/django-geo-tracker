@@ -9,9 +9,12 @@
       .leaflet-container { height: 100%; }
     </style>
     <script>
+      // our geojson data
+      geojson = {{ geojson|safe }}
       window.addEventListener("map:init", function (event) {
         var map = event.detail.map;
-        L.geoJson({{ geojson|safe }}).addTo(map);
+        var geojsonLayer = L.geoJson(geojson).addTo(map);
+        map.fitBounds(geojsonLayer.getBounds(), {maxZoom: 13});
       });
     </script>
     <script type="text/javascript" src="{% static 'js/jquery/jquery.v3.2.1.min.js' %}"></script>
@@ -39,6 +42,7 @@
            window.location.href = window.location.href.split('?')[0] + "?not_before=" + start.format('YYYY-MM-DD hh:mm') + "&not_after=" + end.format("YYYY-MM-DD hh:mm");
       });
     });
+
     </script>
   </body>
 </html>
