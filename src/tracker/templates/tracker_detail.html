@@ -1,0 +1,21 @@
+{% load leaflet_tags %}
+{% load geojson_tags %}
+<html>
+  <head>
+    {% leaflet_js %}
+    {% leaflet_css %}
+    <style>
+      .leaflet-container { height: 100%; }
+    </style>
+    <script>
+      window.addEventListener("map:init", function (event) {
+        var map = event.detail.map;
+        L.geoJson({{ geojson|safe }}).addTo(map);
+      });
+    </script>
+  </head>
+  <body>
+    <h1>Tracker {{ tracker.uuid }}</h1>
+    {% leaflet_map "main" %}
+  </body>
+</html>

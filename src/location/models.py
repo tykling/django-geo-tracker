@@ -3,7 +3,11 @@ from django.core.serializers.json import DjangoJSONEncoder
 import uuid
 from django.utils import timezone
 
+
 class Location(models.Model):
+    class Meta:
+        ordering = ["timestamp"]
+
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     tracker = models.ForeignKey("tracker.Tracker", on_delete=models.PROTECT)
     metadata = models.JSONField(encoder=DjangoJSONEncoder)
@@ -12,5 +16,3 @@ class Location(models.Model):
         default=timezone.now,
         help_text="The timestamp of this location",
     )
-
-

@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.gis',
     "leaflet",  # pretty maps
+    'djgeojson', # geojson tools
     'tracker',
     'location',
 ]
@@ -122,4 +123,9 @@ LOGGING = {
     },
     "handlers": {"console": {"class": "logging.StreamHandler", "formatter": "console"}},
     "loggers": {"socialrating": {"handlers": ["console"], "level": "DEBUG"}},
+}
+
+
+SERIALIZATION_MODULES = {
+    'geojson' : 'djgeojson.serializers'
 }
