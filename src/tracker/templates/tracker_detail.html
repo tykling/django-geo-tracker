@@ -8,15 +8,6 @@
     <style>
       .leaflet-container { height: 100%; }
     </style>
-    <script>
-      // our geojson data
-      geojson = {{ geojson|safe }}
-      window.addEventListener("map:init", function (event) {
-        var map = event.detail.map;
-        var geojsonLayer = L.geoJson(geojson).addTo(map);
-        map.fitBounds(geojsonLayer.getBounds(), {maxZoom: 13});
-      });
-    </script>
     <script type="text/javascript" src="{% static 'js/jquery/jquery.v3.2.1.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/momentjs/moment.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/daterangepicker/daterangepicker.js' %}"></script>
@@ -38,11 +29,27 @@
           format: 'YYYY-MM-DD HH:mm'
         }
       }, function(start, end, label) {
-           console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
            window.location.href = window.location.href.split('?')[0] + "?not_before=" + start.format('YYYY-MM-DD HH:mm') + "&not_after=" + end.format("YYYY-MM-DD HH:mm");
       });
     });
 
+    function onEachFeature(feature, layer) {
+        layer.bindPopup(
+            JSON.stringify(feature.properties, null, 4) + "<br>" + JSON.stringify(feature.geometry)
+        );
+    };
+
+    // geojson data
+    geojson = {{ geojson|safe }}
+    window.addEventListener("map:init", function (event) {
+        var map = event.detail.map;
+        var geojsonLayer = L.geoJson(
+            geojson, {
+                onEachFeature: onEachFeature,
+            },
+        ).addTo(map);
+        map.fitBounds(geojsonLayer.getBounds(), {maxZoom: 19});
+    });
     </script>
   </body>
 </html>
