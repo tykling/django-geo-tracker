@@ -5,6 +5,7 @@ import json
 from .models import Location
 from tracker.models import Tracker
 from django.contrib.gis.geos import Point
+from django.http import HttpResponse
 
 class LocationPostView(View):
     @csrf_exempt
