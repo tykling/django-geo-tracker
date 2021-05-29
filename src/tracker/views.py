@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from .models import Tracker
 from djgeojson.serializers import Serializer as GeoJSONSerializer
 from django.utils import timezone
@@ -40,5 +40,5 @@ class TrackerDetailView(DetailView):
         context["now"] = timezone.now()
         context["locations"] = locations
         context["total_locations"] = locations.count()
-        context["geojson"] = GeoJSONSerializer().serialize(locations, use_natural_keys=True, with_modelname=False, geometry_field="location")
+        context["geojson"] = GeoJSONSerializer().serialize(locations, use_natural_keys=True, with_modelname=False, geometry_field="location", precision=10)
         return context
