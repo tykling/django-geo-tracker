@@ -4,7 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 from .models import Location
 from tracker.models import Tracker
-
+from django.contrib.gis.geos import Point
 
 class LocationPostView(View):
     @csrf_exempt
@@ -17,7 +17,7 @@ class LocationPostView(View):
         loc = Location.objects.create(
             tracker=Tracker.objects.get(uuid=kwargs["tracker_uuid"]),
             metadata=data["properties"],
-            location=data["geometry"]["coordinates"],
+            location=Point(data["geometry"]["coordinates"]),
             timestamp=data["properties"]["payload"]["rxInfo"][0]["time"],
         )
         return HttpResponse("OK")
