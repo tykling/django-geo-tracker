@@ -14,7 +14,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/daterangepicker/daterangepicker.css' %}" />
   </head>
   <body>
-    <h1>Tracker {{ tracker.uuid }}</h1>
+    <h1>Tracker {{ tracker.name }} ({{ tracker.uuid }})</h1>
     <h2>Showing {{ locations|length }} of {{ total_locations }} locations</h2>
     <input type="text" name="datetimefilter" size=30>
     {% leaflet_map "main" %}
