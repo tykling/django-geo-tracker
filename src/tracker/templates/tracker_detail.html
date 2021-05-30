@@ -1,6 +1,8 @@
 {% load leaflet_tags %}
 {% load geojson_tags %}
 {% load static %}
+{% load tz %}
+{% get_current_timezone as TIME_ZONE %}
 <html>
   <head>
     {% leaflet_js %}
@@ -15,7 +17,8 @@
   </head>
   <body>
     <h1>Tracker {{ tracker.name }} ({{ tracker.uuid }})</h1>
-    <h2>Showing {{ locations|length }} of {{ total_locations }} locations</h2>
+    <h2>Showing {{ locations|length }} of {{ total_locations }} locations from {{ not_before }} to {{ not_after }}.</h2>
+    <h3>Time zone is {{ now|date:"T" }} ({{ TIME_ZONE }}).</h3>
     <input type="text" name="datetimefilter" size=30>
     {% leaflet_map "main" %}
     <script>
