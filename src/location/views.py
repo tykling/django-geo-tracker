@@ -22,7 +22,7 @@ class LocationPostView(View):
                 location=Point(data["geometry"]["coordinates"]),
                 timestamp=data["properties"]["payload"]["rxInfo"][0]["time"],
             )
-        except ArgumentError:
+        except:
             # probably bad/no location / no fix
             return HttpResponseBadRequest("Something is fucky")
 
