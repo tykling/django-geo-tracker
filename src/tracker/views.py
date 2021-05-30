@@ -24,8 +24,9 @@ class TrackerDetailView(DetailView):
     def get(self, request, *args, **kwargs):
         if not self.request.GET.get('not_before') and not self.request.GET.get('not_after'):
             # default to last 24 hours if no filter was specified
-            starttime = (timezone.now() - timedelta(hours=24)).strftime("%Y-%m-%d %H:%M")
-            return(redirect(reverse("tracker_detail", kwargs={"tracker_uuid": self.get_object().uuid}) + f"?not_before={starttime}"))
+            not_before = (timezone.now() - timedelta(hours=1)).strftime("%Y-%m-%d %H:%M")
+            not_after = timezone.now().strftime("%Y-%m-%d %H:%M")
+            return(redirect(reverse("tracker_detail", kwargs={"tracker_uuid": self.get_object().uuid}) + f"?not_before={not_before}&not_after={not_after}"))
         return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):

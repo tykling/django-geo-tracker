@@ -15,11 +15,15 @@ class LocationPostView(View):
     def post(self, request, **kwargs):
         print(request.POST)
         data = json.loads(request.POST["geojson"])
-        loc = Location.objects.create(
-            tracker=Tracker.objects.get(uuid=kwargs["tracker_uuid"]),
-            metadata=data["properties"],
-            location=Point(data["geometry"]["coordinates"]),
-            timestamp=data["properties"]["payload"]["rxInfo"][0]["time"],
-        )
-        return HttpResponse("OK")
+        try:
+            loc = Location.objects.create(
+                tracker=Tracker.objects.get(uuid=kwargs["tracker_uuid"]),
+                metadata=data["properties"],
+                location=Point(data["geometry"]["coordinates"]),
+                timestamp=data["properties"]["payload"]["rxInfo"][0]["time"],
+            )
+        except ArgumentError:
+            # probably bad/no location / no fix
+            return HttpResponseBadRequest("Something is fucky")
 
+        return HttpResponse("OK")
