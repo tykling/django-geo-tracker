@@ -1,0 +1,35 @@
+{% load leaflet_tags %}
+{% load geojson_tags %}
+{% load static %}
+{% load tz %}
+{% get_current_timezone as TIME_ZONE %}
+<html>
+  <head>
+    {% leaflet_js %}
+    {% leaflet_css %}
+  </head>
+  <body>
+    <h1>Trackers</h1>
+    <p>
+    <table style="border: 1px solid #000">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Last seen</th>
+          <th>Locations</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for tracker in tracker_list %}
+        <tr>
+            <td><a href="{% url 'tracker_detail' tracker_uuid=tracker.uuid %}">{{ tracker.name }}</a></td>
+          <td>{{ tracker.description }}</td>
+          <td>{{ tracker.location_set.last.timestamp }}</td>
+          <td>{{ tracker.location_set.count }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+</html>
