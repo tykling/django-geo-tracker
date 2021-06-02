@@ -13,6 +13,8 @@
     <script type="text/javascript" src="{% static 'js/jquery/jquery.v3.2.1.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/momentjs/moment.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/daterangepicker/daterangepicker.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/proj4-src.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/proj4leaflet.min.js' %}"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'css/daterangepicker/daterangepicker.css' %}" />
   </head>
   <body>
@@ -21,8 +23,35 @@
     <h3>Time zone is {{ now|date:"T" }} ({{ TIME_ZONE }}).</h3>
     <p><input type="text" name="datetimefilter" size=30></p>
     <span>Rolling Live Refresh (30 sec)</span>&nbsp;<input type="checkbox" id="autoRefreshCheckbox" value="true" checked="checked" />
-    {% leaflet_map "main" %}
+    <div id="map" class="map"></div>
     <script>
+      // the token for kortforsyningen
+      var kftoken = '{{ kftoken }}';
+    // map init function
+    function MapReadyCallback() {
+        var map = this;
+        var geojsonLayer = L.geoJson(
+            geojson, {
+                onEachFeature: onEachFeature,
+            },
+        ).addTo(map);
+        map.fitBounds(geojsonLayer.getBounds(), {maxZoom: 13});
+    };
+
+    // callback to add a popup for each pointer
+    function onEachFeature(feature, layer) {
+        layer.bindPopup(
+            JSON.stringify(feature.properties, null, 4)
+        );
+    };
+
+    // geojson data
+    geojson = {{ geojson|safe }}
+
+    </script>
+    <script type="text/javascript" src="{% static 'js/kfmap.js' %}"></script>
+    <script>
+    // add daterangepicker
     $(function() {
       $('input[name="datetimefilter"]').daterangepicker({
         "timePicker": true,
@@ -37,24 +66,6 @@
       });
     });
 
-    function onEachFeature(feature, layer) {
-        layer.bindPopup(
-            JSON.stringify(feature.properties, null, 4) + "<br>" + JSON.stringify(feature.geometry)
-        );
-    };
-
-    // geojson data
-    geojson = {{ geojson|safe }}
-    window.addEventListener("map:init", function (event) {
-        var map = event.detail.map;
-        var geojsonLayer = L.geoJson(
-            geojson, {
-                onEachFeature: onEachFeature,
-            },
-        ).addTo(map);
-        map.fitBounds(geojsonLayer.getBounds(), {maxZoom: 19});
-    });
-
     // reload every 30 secs with no filter to get latest, if checked
     setInterval(function ()
     {
@@ -63,6 +74,7 @@
             window.location.href = window.location.href.split('?')[0];
         }
     }, 30000);
+
     </script>
   </body>
 </html>

@@ -9,6 +9,8 @@ from django.utils import timezone
 from django.urls import reverse
 from django.shortcuts import redirect
 from datetime import timedelta
+from django.conf import settings
+
 
 class TrackerListView(ListView):
     model = Tracker
@@ -42,4 +44,5 @@ class TrackerDetailView(DetailView):
         context["locations"] = locations
         context["total_locations"] = locations.count()
         context["geojson"] = GeoJSONSerializer().serialize(locations, use_natural_keys=True, with_modelname=False, geometry_field="location", precision=10)
+        context["kftoken"] = settings.KORTFORSYNINGEN_TOKEN
         return context
