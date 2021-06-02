@@ -19,7 +19,8 @@
     <h1>Tracker {{ tracker.name }} ({{ tracker.uuid }})</h1>
     <h2>Showing {{ locations|length }} of {{ total_locations }} locations from {{ not_before }} to {{ not_after }}.</h2>
     <h3>Time zone is {{ now|date:"T" }} ({{ TIME_ZONE }}).</h3>
-    <input type="text" name="datetimefilter" size=30>
+    <p><input type="text" name="datetimefilter" size=30></p>
+    <span>Rolling Live Refresh (30 sec)</span>&nbsp;<input type="checkbox" id="autoRefreshCheckbox" value="true" checked="checked" />
     {% leaflet_map "main" %}
     <script>
     $(function() {
@@ -53,6 +54,15 @@
         ).addTo(map);
         map.fitBounds(geojsonLayer.getBounds(), {maxZoom: 19});
     });
+
+    // reload every 30 secs with no filter to get latest, if checked
+    setInterval(function ()
+    {
+        if (document.getElementById('autoRefreshCheckbox').checked)
+        {
+            window.location.href = window.location.href.split('?')[0];
+        }
+    }, 30000);
     </script>
   </body>
 </html>
