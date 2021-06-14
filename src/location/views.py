@@ -16,7 +16,7 @@ class LocationPostView(View):
         try:
             data = json.loads(request.POST["geojson"])
             loc = Location.objects.create(
-                tracker=Tracker.objects.get(uuid=kwargs["tracker_uuid"]),
+                tracker=Tracker.objects.get(id=kwargs["tracker_uuid"]),
                 metadata=data["properties"],
                 location=Point(data["geometry"]["coordinates"]),
                 timestamp=data["properties"]["payload"]["rxInfo"][0]["time"],
