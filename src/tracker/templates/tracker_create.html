@@ -1,0 +1,15 @@
+{% load static %}
+{% load tz %}
+{% get_current_timezone as TIME_ZONE %}
+<html>
+  <body>
+    <h1>Create Tracker</h1>
+    <form method="POST">
+      {% csrf_token %}
+      <p>
+      {{ form }}
+      </p>
+      <button type="submit">Create</button>
+    </form>
+  </body>
+</html>

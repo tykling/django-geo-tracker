@@ -38,3 +38,4 @@ ADMINS={{ django_admins }}
 #SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 #
 KORTFORSYNINGEN_TOKEN="{{ django_kortforsyningen_token }}"
+TRACKER_SLEEP_SECONDS="{{ django_tracker_sleep_seconds }}"

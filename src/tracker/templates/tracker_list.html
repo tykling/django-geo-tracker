@@ -10,23 +10,34 @@
   </head>
   <body>
     <h1>Trackers</h1>
+    <p><a href="{% url 'tracker_create' %}">Create New Tracker</a></p>
     <p>
-    <table style="border: 1px solid #000">
+    <table style="border: 1px solid black">
       <thead>
-        <tr>
+        <tr style="border: 1px solid black">
           <th>Name</th>
           <th>Description</th>
+          <th>LoRa DevEUI</th>
+          <th>LoRa DevAddr</th>
+          <th>LoRa AppSessionKey</th>
+          <th>LoRa NetSessionKey</th>
           <th>Last seen</th>
           <th>Locations</th>
+          <th>Config</th>
         </tr>
       </thead>
       <tbody>
         {% for tracker in tracker_list %}
         <tr>
-            <td><a href="{% url 'tracker_detail' tracker_uuid=tracker.uuid %}">{{ tracker.name }}</a></td>
+          <td><a href="{% url 'tracker_detail' tracker_uuid=tracker.id %}">{{ tracker.name }}</a></td>
           <td>{{ tracker.description }}</td>
-          <td>{{ tracker.location_set.last.timestamp }}</td>
+          <td>{{ tracker.lora_device_eui }}</td>
+          <td>{{ tracker.lora_device_addr }}</td>
+          <td>{{ tracker.lora_app_session_key.hex }}</td>
+          <td>{{ tracker.lora_network_session_key.hex }}</td>
+          <td>{{ tracker.location_set.last.timestamp|default:"N/A" }}</td>
           <td>{{ tracker.location_set.count }}</td>
+          <td><a href="{% url 'tracker_config' tracker_uuid=tracker.id %}">config.py</a></td>
         </tr>
         {% endfor %}
       </tbody>
