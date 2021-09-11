@@ -1,0 +1,30 @@
+{% load static %}
+{% load django_bootstrap5 %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/favicon.ico">
+    <title>{% block title %}Django Geo Tracker{% endblock title %}</title>
+    <link href="{% static 'css/bootstrap-5.1.1.min.css' %}" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <script src="{% static 'js/bootstrap-5.1.1.bundle.min.js' %}" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+
+    <script type="text/javascript" charset="utf8" src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/datatables.css' %}">
+    <script type="text/javascript" charset="utf8" src="{% static 'js/datatables.js' %}"></script>
+    {% block extra_head %}{% endblock extra_head %}
+  </head>
+
+  <body>
+    <main role="main" class="container">
+      {# Display django.contrib.messages as Bootstrap alerts #}
+      {% bootstrap_messages %}
+      {% block content %}
+        <p>block 'content' was not replaced, so this default text from base.html is shown instead</p>
+      {% endblock content %}
+    </main>
+  </body>
+</html>

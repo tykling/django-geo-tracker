@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'django.contrib.gis',
     "leaflet",  # pretty maps
     'djgeojson', # geojson tools
+    'django_bootstrap5',
     'tracker',
     'location',
 ]
@@ -47,7 +48,7 @@ ROOT_URLCONF = 'django_geo_tracker.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        "DIRS": [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

@@ -1,15 +1,15 @@
+{% extends "base.html" %}
 {% load static %}
 {% load tz %}
-{% get_current_timezone as TIME_ZONE %}
-<html>
-  <body>
-    <h1>Create Tracker</h1>
+{% load django_bootstrap5 %}
+{% block content %}
+    <h1>Create New Tracker</h1>
     <form method="POST">
       {% csrf_token %}
       <p>
-      {{ form }}
+      {% bootstrap_form form %}
       </p>
-      <button type="submit">Create</button>
+      <button class="btn btn-primary" type="submit">Create</button>
+      <a class="btn btn-secondary" href="{% url 'tracker_list' %}">Cancel</a>
     </form>
-  </body>
-</html>
+{% endblock content %}

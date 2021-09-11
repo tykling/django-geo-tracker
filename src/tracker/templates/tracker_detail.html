@@ -2,6 +2,8 @@
 {% load geojson_tags %}
 {% load static %}
 {% load tz %}
+{% load django_bootstrap5 %}
+
 {% get_current_timezone as TIME_ZONE %}
 <html>
   <head>
@@ -23,7 +25,10 @@
     <h3>Time zone is {{ now|date:"T" }} ({{ TIME_ZONE }}).</h3>
     <p><input type="text" name="datetimefilter" size=30></p>
     <span>Rolling Live Refresh (30 sec)</span>&nbsp;<input type="checkbox" id="autoRefreshCheckbox" value="true" /><br>
-    <p><a href="{% url 'tracker_list' %}">Back to tracker list</a></p>
+    <p>
+      <a class="btn btn-primary" href="{% url 'tracker_detail' tracker_uuid=tracker.id %}">Last 2 Minutes</a>
+      <a class="btn btn-secondary" href="{% url 'tracker_list' %}">Back to tracker list</a>
+    </p>
     <div id="map" class="map"></div>
     <script>
       // the token for kortforsyningen
