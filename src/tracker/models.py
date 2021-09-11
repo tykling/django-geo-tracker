@@ -10,11 +10,15 @@ class Tracker(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.TextField(help_text="Human readable name for this tracker")
     description = models.TextField(help_text="Description of this tracker")
-    metadata = models.JSONField(encoder=DjangoJSONEncoder, default=dict, help_text="Extra metadata about the tracker.")
+    metadata = models.JSONField(encoder=DjangoJSONEncoder, default=dict, help_text="Extra metadata about the tracker.", blank=True)
     lora_device_eui = models.CharField(max_length=16, help_text="LoRa device EUI for the tracker.")
     lora_device_addr = models.CharField(max_length=8, help_text="LoRa device address (8 bytes).")
     lora_app_session_key = models.UUIDField(default=uuid.uuid4, help_text="LoRa ABP application session key (32 bytes).")
     lora_network_session_key = models.UUIDField(default=uuid.uuid4, help_text="LoRa ABP network session key (32 bytes).")
+
+    
+    def __str__(self):
+	return self.name
 
     def save(self):
         if not self.lora_device_eui:
