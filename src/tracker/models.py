@@ -16,9 +16,9 @@ class Tracker(models.Model):
     lora_app_session_key = models.UUIDField(default=uuid.uuid4, help_text="LoRa ABP application session key (32 bytes).")
     lora_network_session_key = models.UUIDField(default=uuid.uuid4, help_text="LoRa ABP network session key (32 bytes).")
 
-    
+
     def __str__(self):
-	return self.name
+        return self.name
 
     def save(self):
         if not self.lora_device_eui:
