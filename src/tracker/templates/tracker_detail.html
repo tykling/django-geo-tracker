@@ -7,12 +7,15 @@
 {% get_current_timezone as TIME_ZONE %}
 <html>
   <head>
+    <link href="{% static 'css/bootstrap-5.1.1.min.css' %}" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <script src="{% static 'js/bootstrap-5.1.1.bundle.min.js' %}" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+
     {% leaflet_js %}
     {% leaflet_css %}
     <style>
       .leaflet-container { height: 100%; }
     </style>
-    <script type="text/javascript" src="{% static 'js/jquery/jquery.v3.2.1.min.js' %}"></script>
+    <script type="text/javascript" charset="utf8" src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/momentjs/moment.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/daterangepicker/daterangepicker.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/proj4-src.js' %}"></script>
